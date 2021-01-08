@@ -1,5 +1,5 @@
 import express from "express";
-import { createInvoice } from "../controllers/mainController.js";
+import { createInvoice, deleteInvoice } from "../controllers/mainController.js";
 
 // import {
 //   getData,
@@ -18,6 +18,8 @@ const router = express.Router();
 // router.get("/search/:common_name", searchResults);
 
 router.post("/", createInvoice);
+router.delete("/delete/:id", deleteInvoice);
+
 // router.put("/:id", editData);
 // router.patch("/:id", likeCount);
 // router.delete("/:id", deleteData);
