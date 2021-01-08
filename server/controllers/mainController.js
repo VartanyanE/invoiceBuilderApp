@@ -1,4 +1,5 @@
 import invoiceModel from "../models/mainModel.js";
+import auth from "../middleware/auth.js";
 
 export const createInvoice = async (req, res) => {
   // our data from the frontend

@@ -1,5 +1,6 @@
 import express from "express";
 import { createInvoice, deleteInvoice } from "../controllers/mainController.js";
+import auth from "../middleware/auth.js";
 
 // import {
 //   getData,

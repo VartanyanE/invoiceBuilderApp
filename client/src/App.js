@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import Invoice from "./components/pages/Invoice"
 import UserContext from "./context/UserContext";
 import axios from "axios";
 
@@ -56,6 +57,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/invoice" component={Invoice} />
         </Switch>
       </UserContext.Provider>
     </BrowserRouter>
