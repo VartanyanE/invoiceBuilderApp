@@ -15,3 +15,15 @@ export const createInvoice = async (req, res) => {
     console.log(error);
   }
 };
+
+export const deleteInvoice = async (req, res) => {
+  try {
+    const deleteQuery = await invoiceModel.findOneAndDelete({
+      _id: req.params.id,
+    });
+    console.log(req.params.id);
+    res.status(200).json(deleteQuery);
+  } catch (error) {
+    console.log(error);
+  }
+};
