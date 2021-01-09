@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require ("mongoose");
 
 // we build our schema
 const invoiceSchema = mongoose.Schema({
@@ -16,4 +16,4 @@ const invoiceSchema = mongoose.Schema({
 // turn our schema into a model
 const invoiceModel = mongoose.model("Invoice", invoiceSchema);
 // export our model to our controller
-export default invoiceModel;
+module.exports = invoiceModel;

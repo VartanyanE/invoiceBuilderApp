@@ -1,6 +1,6 @@
-import express from "express";
-import { createInvoice, deleteInvoice } from "../controllers/mainController.js";
-import auth from "../middleware/auth.js";
+const express = require('express');
+const { createInvoice, deleteInvoice } = require ("../controllers/mainController.js");
+const auth = require("../middleware/auth.js");
 
 // import {
 //   getData,
@@ -26,4 +26,4 @@ router.delete("/delete/:id", deleteInvoice);
 // router.delete("/:id", deleteData);
 
 // export to our server.js file
-export default router;
+module.exports = router;

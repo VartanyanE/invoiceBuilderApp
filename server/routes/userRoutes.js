@@ -1,8 +1,8 @@
-import express from "express";
-import User from "../models/userModel.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import auth from "../middleware/auth.js";
+const express = require('express');
+const User = require ("../models/userModel.js");
+const bcrypt = require ("bcryptjs");
+const jwt = require ("jsonwebtoken");
+const  auth = require("../middleware/auth.js");
 
 const router = express.Router();
 
@@ -110,4 +110,4 @@ router.get("/", auth, async (req, res) => {
   });
 });
 
-export default router;
+module.exports =  router;

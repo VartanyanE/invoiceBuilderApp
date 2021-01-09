@@ -1,10 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-import userRouter from "./routes/userRoutes.js";
-import invoiceRoutes from "./routes/mainRoutes.js";
-import dotenv from "dotenv";
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const userRouter = require("./routes/userRoutes.js");
+const invoiceRoutes =require( "./routes/mainRoutes.js");
+const pdfRoutes = require('./routes/pdfRoutes.js')
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use("/users", userRouter);
 app.use("/api/data", invoiceRoutes);
+app.use("/create-pdf", pdfRoutes);
 
 const PORT = process.env.PORT || 3001;
 

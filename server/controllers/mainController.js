@@ -1,7 +1,7 @@
-import invoiceModel from "../models/mainModel.js";
-import auth from "../middleware/auth.js";
+const  invoiceModel = require ("../models/mainModel.js");
+const auth = require ("../middleware/auth.js");
 
-export const createInvoice = async (req, res) => {
+module.exports.createInvoice = async (req, res) => {
   // our data from the frontend
   const frontEnd = req.body;
   // create a new document on our model
@@ -17,7 +17,7 @@ export const createInvoice = async (req, res) => {
   }
 };
 
-export const deleteInvoice = async (req, res) => {
+module.exports.deleteInvoice = async (req, res) => {
   try {
     const deleteQuery = await invoiceModel.findOneAndDelete({
       _id: req.params.id,
@@ -28,3 +28,4 @@ export const deleteInvoice = async (req, res) => {
     console.log(error);
   }
 };
+
