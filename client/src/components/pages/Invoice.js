@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { createInvoice } from "../../utils/API";
+import axios from 'axios';
+import {createInvoice} from "../../utils/API";
 import UserContext from "../../context/UserContext";
+import {saveAs} from "file-saver";
 
 export default function Invoice() {
   const { userData } = useContext(UserContext);
@@ -25,6 +27,18 @@ export default function Invoice() {
       creator: userData.user.id,
     });
   };
+
+  const downloadPDF = async () => {
+   await axios.post('/create-pdf', data)
+    .then(() => axios.get('/create-pdf/fetch-pdf', {responseType: 'blob'}))
+    .then((res) => {
+        const pdfBlob = new Blob([res.data], {type: 'application/pdf'})
+
+    saveAs(pdfBlob, 'newPdf.pdf');
+
+
+
+  })}
 
   return (
     <div>
@@ -60,7 +74,9 @@ export default function Invoice() {
         />
         <br />
         <button type="submit">Submit Data</button>
+        <br />
       </form>
+      <button onClick={downloadPDF}>Download PDF</button>
     </div>
   );
 }
