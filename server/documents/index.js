@@ -1,7 +1,5 @@
-
-
-module.exports = ({name}) => {
-    return `
+module.exports = ({ name, dueDate, description, rate, hours }) => {
+  return `
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +8,15 @@ module.exports = ({name}) => {
     <title>Document</title>
 </head>
 <body>
-    ${name}
+   <h1> ${name} </h1><br />
+   <h1> ${dueDate} </h1><br />
+   <h1> ${description} </h1><br />
+   <h1> ${rate} </h1><br />
+   <h1> ${hours} </h1><br />
+
+
+
+
 </body>
-</html>`
-}
+</html>`;
+};
