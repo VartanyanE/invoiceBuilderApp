@@ -1,5 +1,5 @@
 const express = require('express');
-const { createInvoice, deleteInvoice } = require ("../controllers/mainController.js");
+const { createInvoice, deleteInvoice, getInvoice } = require ("../controllers/mainController.js");
 const auth = require("../middleware/auth.js");
 
 // import {
@@ -14,7 +14,7 @@ const auth = require("../middleware/auth.js");
 const router = express.Router();
 
 // specify the endpoints and the functions we want to call
-// router.get("/", getData);
+router.get("/", getInvoice);
 // router.get("/:id", getLikes);
 // router.get("/search/:common_name", searchResults);
 

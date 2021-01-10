@@ -9,6 +9,7 @@ const invoiceSchema = mongoose.Schema({
   hours: Number,
   rate: Number,
   total: Number,
+  selectedFile: "String",
   creator: "String",
   createdAt: {
     type: Date,

@@ -17,6 +17,17 @@ module.exports.createInvoice = async (req, res) => {
   }
 };
 
+module.exports.getInvoice = async (req, res) => {
+ 
+
+  try {
+    const getInvoice = await invoiceModel.find().sort({'_id':-1}).limit(1)
+    res.status(200).json(getInvoice);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.deleteInvoice = async (req, res) => {
   try {
     const deleteQuery = await invoiceModel.findOneAndDelete({

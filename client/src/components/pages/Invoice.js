@@ -1,23 +1,25 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { createInvoice } from "../../utils/API";
+import { createInvoice, getInvoice } from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
+import FileBase from "react-file-base64";
 
 export default function Invoice() {
   const { userData } = useContext(UserContext);
 
   const [data, setData] = useState([{}]);
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     await setData({ ...data, creator: userData.user.id });
-  //   };
-  //   getData();
-  // }, []);
+  const [invoice, setInvoice] = useState();
+  useEffect(() => {
+    getInvoice().then((res) => {setInvoice(res.data)})
+  }, [data]);
   console.log(data);
+  console.log(FileBase.props);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     let totalPrice = data.hours * data.rate;
+    
     await createInvoice({
       name: data.name,
       dueDate: data.dueDate,
@@ -25,9 +27,10 @@ export default function Invoice() {
       hours: data.hours,
       rate: data.rate,
       total: totalPrice,
+      selectedFile: data.selectedFile,
       creator: userData.user.id,
     });
-    // await clearForm();
+    await clearForm();
   };
 
   const clearForm = () => {
@@ -41,8 +44,20 @@ export default function Invoice() {
   };
 
   const downloadPDF = async () => {
+    console.log(invoice)
+  let invoiceObject = {
+    name: invoice[0].name,
+    dueDate: invoice[0].dueDate,
+    description: invoice[0].description,
+    hours: invoice[0].hours,
+    rate: invoice[0].rate,
+    total: invoice[0].total,
+    selectedFile: invoice[0].selectedFile
+
+   }
+   console.log(invoiceObject);
     await axios
-      .post("/create-pdf", data)
+      .post("/create-pdf", invoiceObject)
       .then(() => axios.get("/create-pdf/fetch-pdf", { responseType: "blob" }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
@@ -50,6 +65,8 @@ export default function Invoice() {
         saveAs(pdfBlob, "newPdf.pdf");
       });
   };
+
+
 
   return (
     <div>
@@ -82,10 +99,17 @@ export default function Invoice() {
         <input
           value={data.rate}
           onChange={(e) => setData({ ...data, rate: e.target.value })}
-        />
+        /> <br />Upload a logo <FileBase
+       id="upload logo"
+          type="file"
+          multiple={false}
+          onDone={({ base64 }) => setData({ ...data, selectedFile: base64 })}
+        />{" "}
         <br />
         <button type="submit">Submit Data</button>
         <br />
+      
+       
       </form>
       <button onClick={downloadPDF}>Download PDF</button>
     </div>

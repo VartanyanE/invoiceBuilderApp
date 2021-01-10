@@ -1,9 +1,9 @@
 import axios from "axios";
 
 
-// export const getData = function () {
-//   return axios.get("/api/data");
-// };
+export const getInvoice = function () {
+  return axios.get("/api/data");
+};
 
 // export const getLikes = function (id) {
 //   return axios.get("/api/data/" + id);

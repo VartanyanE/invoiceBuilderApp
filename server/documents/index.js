@@ -13,13 +13,14 @@ module.exports = (res) => {
     <title>Document</title>
     <style> 
     h1 {
-        color: red;
-        font-size: 40px;
+        
+        font-size: 20px;
     }
     
     </style>
 </head>
 <body>
+<img src=${res.selectedFile} alt="" />
     <h1>Date:   ${`${formatedDate}`}
    <h1> Name:   ${res.name} </h1><br />
    <h1> Due Date:   ${res.dueDate} </h1><br />
@@ -27,6 +28,7 @@ module.exports = (res) => {
    <h1>Rate:    ${res.rate} </h1><br />
    <h1> Hours:  ${res.hours} </h1><br />
    <h1> Total:  ${res.total} </h1><br />
+   
 
 
 
