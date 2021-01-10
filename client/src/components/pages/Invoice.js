@@ -17,14 +17,26 @@ export default function Invoice() {
   console.log(data);
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    let totalPrice = data.hours * data.rate;
     await createInvoice({
       name: data.name,
       dueDate: data.dueDate,
       description: data.description,
       hours: data.hours,
       rate: data.rate,
+      total: totalPrice,
       creator: userData.user.id,
+    });
+    // await clearForm();
+  };
+
+  const clearForm = () => {
+    setData({
+      name: "",
+      dueDate: "",
+      description: "",
+      hours: "",
+      rate: "",
     });
   };
 

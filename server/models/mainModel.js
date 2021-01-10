@@ -1,12 +1,14 @@
-const mongoose = require ("mongoose");
+const mongoose = require("mongoose");
 
 // we build our schema
+
 const invoiceSchema = mongoose.Schema({
   name: "String",
   dueDate: "String",
   description: "String",
   hours: Number,
   rate: Number,
+  total: Number,
   creator: "String",
   createdAt: {
     type: Date,
