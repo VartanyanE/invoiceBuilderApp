@@ -23,6 +23,21 @@ module.exports.getInvoice = async (req, res) => {
   try {
     const getInvoice = await invoiceModel.find().sort({'_id':-1}).limit(1)
     res.status(200).json(getInvoice);
+    
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.searchInvoice = async (req, res) => {
+  try {
+    //run .find() on our model
+    const searchPayload = await invoiceModel.find({
+      invoiceNumber: req.params.common_invoice_number,
+    });
+    // return status and send our payload in the response
+    res.status(200).json(searchPayload);
+    console.log(searchPayload);
   } catch (error) {
     console.log(error);
   }

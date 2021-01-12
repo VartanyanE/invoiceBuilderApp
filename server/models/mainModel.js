@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
+
+
 
 // we build our schema
 
 const invoiceSchema = mongoose.Schema({
+  invoiceNumber: Number,
   name: "String",
-  dueDate: "String",
+  dueDate:  {
+    type: Date,
+    default: moment().format("L"),
+  },
   description: "String",
   hours: Number,
   rate: Number,
@@ -13,7 +20,7 @@ const invoiceSchema = mongoose.Schema({
   creator: "String",
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: moment().format("L"),
   },
 });
 // turn our schema into a model

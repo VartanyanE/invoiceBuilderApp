@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { createInvoice, getInvoice } from "../../utils/API";
+import { createInvoice, getInvoice, searchInvoice } from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
 import FileBase from "react-file-base64";
@@ -10,19 +10,38 @@ export default function Invoice() {
 
   const [data, setData] = useState([{}]);
   const [invoice, setInvoice] = useState();
+    const [search, setSearch] = useState({
+    invoiceNumber: "",
+  });
+  const [searchResultsState, setSearchResultsState] = useState([{}]);
   useEffect(() => {
     getInvoice().then((res) => {setInvoice(res.data)})
+    
   }, [data]);
-  console.log(data);
-  console.log(FileBase.props);
+  
+console.log(invoice);
+  useEffect(() => {
+     searchInvoice(search.invoiceNumber).then(({ data }) => setSearchResultsState(data));
+  }, [search]);
+ 
+  
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min )) + min;
+    
+}
+
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let totalPrice = data.hours * data.rate;
     
+    let totalPrice = data.hours * data.rate;
+    let randomInvoiceNumber = getRandomInt(9999,100000);
     await createInvoice({
+      invoiceNumber: randomInvoiceNumber,
       name: data.name,
-      dueDate: data.dueDate,
+     
       description: data.description,
       hours: data.hours,
       rate: data.rate,
@@ -33,10 +52,17 @@ export default function Invoice() {
     await clearForm();
   };
 
+    const handleSearch = async (event) => {
+    event.preventDefault();
+   await searchInvoice(search.invoiceNumber).then(({ data }) => setSearchResultsState(data));
+   await console.log(searchResultsState)
+  };
+
+
   const clearForm = () => {
     setData({
       name: "",
-      dueDate: "",
+      
       description: "",
       hours: "",
       rate: "",
@@ -46,6 +72,7 @@ export default function Invoice() {
   const downloadPDF = async () => {
     console.log(invoice)
   let invoiceObject = {
+    invoiceNumber: invoice[0].invoiceNumber,
     name: invoice[0].name,
     dueDate: invoice[0].dueDate,
     description: invoice[0].description,
@@ -77,12 +104,7 @@ export default function Invoice() {
           onChange={(e) => setData({ ...data, name: e.target.value })}
         />
         <br />
-        <label>Due Date</label>
-        <input
-          value={data.dueDate}
-          onChange={(e) => setData({ ...data, dueDate: e.target.value })}
-        />
-        <br />
+       
         <label>Description</label>
         <input
           value={data.description}
@@ -112,6 +134,30 @@ export default function Invoice() {
        
       </form>
       <button onClick={downloadPDF}>Download PDF</button>
-    </div>
+        <div>
+        <form onSubmit={handleSearch}>
+        <input
+            placeholder="Enter Invoice Number"
+            value={search.invoiceNumber}
+            onChange={(e) => {
+              setSearch({ ...search, invoiceNumber: e.target.value });
+            }}
+          />
+          {/* <button type="submit>">Search</button> */}
+        </form></div>
+
+            <div>
+        {searchResultsState ? searchResultsState.map((results) => (
+        <h2>Invoice Number: {results.invoiceNumber} <br/>
+            Company Name: {results.name}<br/>
+           
+            Description: {results.description}<br/>
+            Hours: {results.hours}<br/>
+            Rate: {results.rate}<br/>
+            Total: {results.total}</h2> 
+        ))  : ""}
+      </div>
+      </div>
+   
   );
 }

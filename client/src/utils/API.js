@@ -29,9 +29,9 @@ export const createInvoice = function (data) {
 //   return axios.patch("/api/data/" + id);
 // };
 
-// export const searchResults = function (common_name) {
-//   return axios.get("/api/data/search/" + common_name);
-// };
+export const searchInvoice = function (common_invoice_number) {
+  return axios.get("/api/data/search/" + common_invoice_number);
+};
 
 // export const deleteData = function (id) {
 //   return axios.delete("/api/data/" + id);
