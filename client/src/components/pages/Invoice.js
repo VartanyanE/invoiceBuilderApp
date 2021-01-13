@@ -16,7 +16,9 @@ export default function Invoice() {
   });
   const [searchResultsState, setSearchResultsState] = useState(null);
   useEffect(() => {
+    
     getInvoice().then((res) => {
+      
       setInvoice(res.data);
     });
   }, [data]);
@@ -33,33 +35,25 @@ export default function Invoice() {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const currentDate = moment();
+   
     const invoiceDueDate = moment().add(30, "days");
-    const dueInSeven = moment().add(7, "days");
-    let isDueInSeven = false;
-    let isPastDue = false;
-    if(currentDate.isBetween(dueInSeven)) {
-      isDueInSeven = true;
-    }
-    if(currentDate.isAfter(invoiceDueDate)) {
-      isPastDue = true;
-    }
-    
-
-    let totalPrice = data.hours * data.rate;
+    let totalPriceHours = data.hours * data.rate;
+    let totalPriceQuantity = data.quantity * data.rate;
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
       name: data.name,
       dueDate: invoiceDueDate,
-      pastDue: isPastDue,
-      dueInSeven: isDueInSeven,
+     
       description: data.description,
       hours: data.hours,
+      quantity: data.quantity,
       rate: data.rate,
-      total: totalPrice,
+      totalWithHours: totalPriceHours,
+      totalWithQuantity: totalPriceQuantity,
       selectedFile: data.selectedFile,
       creator: userData.user.id,
     });
@@ -77,7 +71,7 @@ export default function Invoice() {
   const clearForm = () => {
     setData({
       name: "",
-
+      quantity: "",
       description: "",
       hours: "",
       rate: "",
@@ -126,6 +120,12 @@ export default function Invoice() {
         <input
           value={data.hours}
           onChange={(e) => setData({ ...data, hours: e.target.value })}
+        />
+        <br />
+        <label>Quantity</label>
+        <input
+          value={data.quantity}
+          onChange={(e) => setData({ ...data, quantity: e.target.value })}
         />
         <br />
         <label>Rate</label>
