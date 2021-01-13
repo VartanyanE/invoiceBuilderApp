@@ -7,14 +7,7 @@ import Invoice from "./components/pages/Invoice"
 import UserContext from "./context/UserContext";
 import axios from "axios";
 
-// import {
-//   getData,
-//   createData,
-//   upDateData,
-//   deleteData,
-//   likeCount,
-//   searchResults,
-// } from "./utils/API";
+
 
 const App = () => {
   const [userData, setUserData] = useState({

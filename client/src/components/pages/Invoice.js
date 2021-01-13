@@ -35,16 +35,27 @@ export default function Invoice() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const currentDate = moment().add(30, "days");
-    // const dueDateTerms = currentDate.add(30, "days");
-    console.log(currentDate);
+    const currentDate = moment();
+    const invoiceDueDate = moment().add(30, "days");
+    const dueInSeven = moment().add(7, "days");
+    let isDueInSeven = false;
+    let isPastDue = false;
+    if(currentDate.isBetween(dueInSeven)) {
+      isDueInSeven = true;
+    }
+    if(currentDate.isAfter(invoiceDueDate)) {
+      isPastDue = true;
+    }
+    
 
     let totalPrice = data.hours * data.rate;
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
       name: data.name,
-      dueDate: currentDate,
+      dueDate: invoiceDueDate,
+      pastDue: isPastDue,
+      dueInSeven: isDueInSeven,
       description: data.description,
       hours: data.hours,
       rate: data.rate,
@@ -162,6 +173,8 @@ export default function Invoice() {
                 Rate: {results.rate}
                 <br />
                 Total: {results.total}
+                <br />
+                PastDue: {results.pastDue ? "Yes" : "No"}
               </h2>
             ))
           : ""}
