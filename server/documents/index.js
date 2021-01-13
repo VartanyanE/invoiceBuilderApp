@@ -3,6 +3,8 @@ var moment = require("moment"); // require
 module.exports = (res) => {
   const createdAt = moment();
   let formatedDate = createdAt.format("L");
+  const currentDate = moment().add(30, "days");
+  let thirtyDays = currentDate.format("L");
   console.log(res);
   return `
     <!DOCTYPE html>
@@ -24,7 +26,7 @@ module.exports = (res) => {
     <h1>Date:   ${`${formatedDate}`}
     <h1> Invoice #:   ${res.invoiceNumber} </h1><br />
    <h1> Name:   ${res.name} </h1><br />
-   <h1> Due Date:   ${res.dueDate} </h1><br />
+   <h1> Due Date:   ${thirtyDays} </h1><br />
    <h1> Description:    ${res.description} </h1><br />
    <h1>Rate:    ${res.rate} </h1><br />
    <h1> Hours:  ${res.hours} </h1><br />
