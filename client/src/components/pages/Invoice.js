@@ -61,6 +61,7 @@ export default function Invoice() {
   };
 
   const handleSearch = async (event) => {
+    const invoiceDueDate = moment().add(30, "days");
     event.preventDefault();
     await searchInvoice(search.invoiceNumber).then(({ data }) =>
       setSearchResultsState(data)

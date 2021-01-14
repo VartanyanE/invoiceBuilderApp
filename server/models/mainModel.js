@@ -12,7 +12,7 @@ const invoiceSchema = mongoose.Schema({
     type: Date,
     default: moment().format("L"),
   },
-  
+  pastDue: Boolean,
   description: "String",
   hours: Number,
   quantity: Number,
