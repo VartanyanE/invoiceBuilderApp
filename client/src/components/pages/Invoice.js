@@ -15,17 +15,21 @@ export default function Invoice() {
     invoiceNumber: "",
   });
   const [searchResultsState, setSearchResultsState] = useState(null);
+
+ 
   useEffect(() => {
     
     getInvoice().then((res) => {
       
       setInvoice(res.data);
+      console.log(res.data)
     });
   }, [data]);
-
   useEffect(() => {
-    searchInvoice(search.invoiceNumber).then(({ data }) =>
-      setSearchResultsState(data)
+    searchInvoice(search.invoiceNumber).then((res) => {
+
+      console.log(res.data);
+      setSearchResultsState(res.data) }
     );
   }, [search]);
 
@@ -39,21 +43,28 @@ export default function Invoice() {
   const handleSubmit = async (event) => {
     event.preventDefault();
    
-    const invoiceDueDate = moment().add(30, "days");
-    let totalPriceHours = data.hours * data.rate;
-    let totalPriceQuantity = data.quantity * data.rate;
+    const invoiceDueDate = moment().add(data.paymentTerms, "days");
+    let taxConversion = data.tax / 100;
+    console.log(taxConversion)
+    let totalPrice = (data.quantity || data.hours) * data.rate;
+    let taxTotal = taxConversion * totalPrice;
+    let finalTotal = totalPrice + taxTotal;
+    console.log(finalTotal);
+  
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
       name: data.name,
       dueDate: invoiceDueDate,
+      tax: data.tax,
+      paymentTerms: data.paymentTerms,
      
       description: data.description,
       hours: data.hours,
       quantity: data.quantity,
       rate: data.rate,
-      totalWithHours: totalPriceHours,
-      totalWithQuantity: totalPriceQuantity,
+      total: finalTotal,
+      
       selectedFile: data.selectedFile,
       creator: userData.user.id,
     });
@@ -62,10 +73,10 @@ export default function Invoice() {
 
   const handleSearch = async (event) => {
     const invoiceDueDate = moment().add(30, "days");
-    event.preventDefault();
-    await searchInvoice(search.invoiceNumber).then(({ data }) =>
-      setSearchResultsState(data)
-    );
+    
+    // await searchInvoice(search.invoiceNumber).then(({ data }) =>
+    //   setSearchResultsState(data)
+    // );
     await console.log(searchResultsState);
   };
 
@@ -73,6 +84,7 @@ export default function Invoice() {
     setData({
       name: "",
       quantity: "",
+      tax: "",
       description: "",
       hours: "",
       rate: "",
@@ -89,6 +101,7 @@ export default function Invoice() {
       hours: invoice[0].hours,
       rate: invoice[0].rate,
       total: invoice[0].total,
+      tax: invoice[0].tax,
       selectedFile: invoice[0].selectedFile,
     };
     console.log(invoiceObject);
@@ -129,6 +142,20 @@ export default function Invoice() {
           onChange={(e) => setData({ ...data, quantity: e.target.value })}
         />
         <br />
+        <label>Tax</label>
+        <input
+        placeholder="%"
+          value={data.tax}
+          onChange={(e) => setData({ ...data, tax: e.target.value })}
+        />
+        <br />
+        <label>Payment Terms</label>
+        <input
+       
+          value={data.paymentTerms}
+          onChange={(e) => setData({ ...data, paymentTerms: e.target.value })}
+        />
+        <br />
         <label>Rate</label>
         <input
           value={data.rate}
@@ -148,7 +175,7 @@ export default function Invoice() {
       </form>
       <button onClick={downloadPDF}>Download PDF</button>
       <div>
-        <form onSubmit={handleSearch}>
+        <form >
           <input
             placeholder="Enter Invoice Number"
             value={search.invoiceNumber}
@@ -173,9 +200,9 @@ export default function Invoice() {
                 <br />
                 Rate: {results.rate}
                 <br />
-                Total: {results.total}
+                Total: {results.totalWithHours}
                 <br />
-                PastDue: {results.pastDue ? "Yes" : "No"}
+                Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
             ))
           : ""}

@@ -17,8 +17,10 @@ const invoiceSchema = mongoose.Schema({
   hours: Number,
   quantity: Number,
   rate: Number,
-  totalWithHours: Number,
-  totalWithQuantity: Number,
+  tax: Number,
+  paymentTerms: Number,
+  total: Number,
+ 
   selectedFile: "String",
   creator: "String",
   createdAt: {

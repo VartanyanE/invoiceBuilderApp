@@ -5,7 +5,6 @@ module.exports = (res) => {
   let formatedDate = createdAt.format("L");
   const currentDate = moment().add(30, "days");
   let thirtyDays = currentDate.format("L");
-  console.log(res);
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +15,7 @@ module.exports = (res) => {
     <style> 
     h1 {
         
-        font-size: 20px;
+        font-size: 15px;
     }
     
     </style>
@@ -30,6 +29,7 @@ module.exports = (res) => {
    <h1> Description:    ${res.description} </h1><br />
    <h1>Rate:    ${res.rate} </h1><br />
    <h1> Hours:  ${res.hours} </h1><br />
+   <h1> Tax:  ${res.tax}% </h1><br />
    <h1> Total:  ${res.total} </h1><br />
    
 

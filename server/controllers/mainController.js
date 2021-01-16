@@ -24,18 +24,9 @@ module.exports.getInvoice = async (req, res) => {
 
   try {
     const getInvoice = await invoiceModel.find().sort({'_id':-1}).limit(1)
-    let currentDate = moment();
-    let dueDate = getInvoice[0].dueDate;
-    if (currentDate.isBefore(dueDate)) {
-     var modifiedInvoice = {
-       invoiceNumber: getInvoice[0].invoiceNumber,
-       name: getInvoice[0].name,
-       pastDue: true,
-       description: getInvoice[0].description
-     }
-    }
-    res.status(200).json(modifiedInvoice);
-    console.log(modifiedInvoice);
+    
+    res.status(200).json(getInvoice);
+   
     
   } catch (error) {
     console.log(error);
@@ -48,26 +39,26 @@ module.exports.searchInvoice = async (req, res) => {
     const searchPayload = await invoiceModel.find({
       invoiceNumber: req.params.common_invoice_number,
     });
-    let currentDate = moment();
-    let dueDate = searchPayload[0].dueDate;
-    if (currentDate.isAfter(dueDate)) {
-     var modifiedInvoice = [{
-       invoiceNumber: searchPayload[0].invoiceNumber,
-       name: searchPayload[0].name,
-       pastDue: true,
-       description: searchPayload[0].description
-     }] 
-    } else {
-      var modifiedInvoice = [{
-        invoiceNumber: searchPayload[0].invoiceNumber,
-        name: searchPayload[0].name,
-        pastDue: false,
-        description: searchPayload[0].description
-      }] 
+    // let currentDate = moment();
+    // let dueDate = searchPayload[0].dueDate;
+    // if (currentDate.isAfter(dueDate)) {
+    //  var modifiedInvoice = [{
+    //    invoiceNumber: searchPayload[0].invoiceNumber,
+    //    name: searchPayload[0].name,
+    //    pastDue: true,
+    //    description: searchPayload[0].description
+    //  }] 
+    // } else {
+    //   var modifiedInvoice = [{
+    //     invoiceNumber: searchPayload[0].invoiceNumber,
+    //     name: searchPayload[0].name,
+    //     pastDue: false,
+    //     description: searchPayload[0].description
+    //   }] 
 
-    }
+    // }
     // return status and send our payload in the response
-    res.status(200).json(modifiedInvoice);
+    res.status(200).json(searchPayload);
     console.log(searchPayload);
   } catch (error) {
     console.log(error);
