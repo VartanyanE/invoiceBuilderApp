@@ -39,8 +39,11 @@ module.exports.searchInvoice = async (req, res) => {
     const searchPayload = await invoiceModel.find({
       invoiceNumber: req.params.common_invoice_number,
     });
-    // let currentDate = moment();
-    // let dueDate = searchPayload[0].dueDate;
+
+ 
+     
+    // console.log(searchPayload);
+ 
     // if (currentDate.isAfter(dueDate)) {
     //  var modifiedInvoice = [{
     //    invoiceNumber: searchPayload[0].invoiceNumber,
@@ -59,7 +62,27 @@ module.exports.searchInvoice = async (req, res) => {
     // }
     // return status and send our payload in the response
     res.status(200).json(searchPayload);
-    console.log(searchPayload);
+    
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.isPastDue = async (req, res) => {
+  try {
+    const changePastDue = await invoiceModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          pastDue: true,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(changePastDue);
+   
   } catch (error) {
     console.log(error);
   }

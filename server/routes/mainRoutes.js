@@ -1,5 +1,5 @@
 const express = require('express');
-const { createInvoice, deleteInvoice, getInvoice, searchInvoice } = require ("../controllers/mainController.js");
+const { createInvoice, deleteInvoice, getInvoice, searchInvoice, isPastDue } = require ("../controllers/mainController.js");
 const auth = require("../middleware/auth.js");
 
 // import {
@@ -22,7 +22,7 @@ router.post("/", createInvoice);
 router.delete("/delete/:id", deleteInvoice);
 
 // router.put("/:id", editData);
-// router.patch("/:id", likeCount);
+router.patch("/:id", isPastDue);
 // router.delete("/:id", deleteData);
 
 // export to our server.js file

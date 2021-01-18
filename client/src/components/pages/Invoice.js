@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { createInvoice, getInvoice, searchInvoice } from "../../utils/API";
+import { createInvoice, getInvoice, searchInvoice, isPastDue } from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
 import FileBase from "react-file-base64";
 import moment from "moment";
+import { set } from "mongoose";
 
 export default function Invoice() {
   const { userData } = useContext(UserContext);
-
+ const [currentId, setCurrentId] = useState();
   const [data, setData] = useState([{}]);
-  const [invoice, setInvoice] = useState();
+  const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
     invoiceNumber: "",
   });
@@ -25,14 +26,28 @@ export default function Invoice() {
       console.log(res.data)
     });
   }, [data]);
-  useEffect(() => {
-    searchInvoice(search.invoiceNumber).then((res) => {
+  // useEffect(() => {
+  
+  //   searchInvoice(search.invoiceNumber).then((res) => {
 
-      console.log(res.data);
-      setSearchResultsState(res.data) }
-    );
-  }, [search]);
+     
+  //     setSearchResultsState(res.data);
+     
+  //   setCurrentId(res.data._id)
+      
+      
+  //     });
+  // }, [search]);
 
+  // const handlePastDue = async () => {
+  //   const id = "600501b7de30ea5ab42004f4";
+  //   // await setCurrentId(id);
+  //   // console.log(searchResultsState);
+
+  //   await isPastDue(id);
+  //   // await getData().then(({ data }) => setDataBase(data));
+  // };
+  // handlePastDue();
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -58,6 +73,7 @@ export default function Invoice() {
       dueDate: invoiceDueDate,
       tax: data.tax,
       paymentTerms: data.paymentTerms,
+      pastDue: false,
      
       description: data.description,
       hours: data.hours,
@@ -71,14 +87,19 @@ export default function Invoice() {
     await clearForm();
   };
 
-  const handleSearch = async (event) => {
-    const invoiceDueDate = moment().add(30, "days");
+  const handlePastDue = async (event) => {
+    event.preventDefault();
+    // const invoiceDueDate = moment().add(30, "days");
     
-    // await searchInvoice(search.invoiceNumber).then(({ data }) =>
-    //   setSearchResultsState(data)
-    // );
-    await console.log(searchResultsState);
-  };
+    await searchInvoice(search.invoiceNumber).then(({ data }) => {
+      setSearchResultsState(data)
+      setCurrentId(data)
+    
+    }
+   
+    
+     ) }
+     console.log(searchResultsState)
 
   const clearForm = () => {
     setData({
@@ -183,11 +204,11 @@ export default function Invoice() {
               setSearch({ ...search, invoiceNumber: e.target.value });
             }}
           />
-          {/* <button type="submit>">Search</button> */}
+          <button onClick={handlePastDue}>Search</button>
         </form>
       </div>
 
-      <div>
+      {/* <div>
         {searchResultsState
           ? searchResultsState.map((results) => (
               <h2>
@@ -200,13 +221,13 @@ export default function Invoice() {
                 <br />
                 Rate: {results.rate}
                 <br />
-                Total: {results.totalWithHours}
+                Total: {results.total}
                 <br />
                 Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
             ))
           : ""}
-      </div>
+      </div> */}
     </div>
   );
 }

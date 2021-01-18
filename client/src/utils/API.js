@@ -25,9 +25,9 @@ export const createInvoice = function (data) {
 //   return axios.put("/api/data/" + id, data);
 // };
 
-// export const likeCount = function (id) {
-//   return axios.patch("/api/data/" + id);
-// };
+export const isPastDue = function (id) {
+  return axios.patch("/api/data/" + id);
+};
 
 export const searchInvoice = function (common_invoice_number) {
   return axios.get("/api/data/search/" + common_invoice_number);

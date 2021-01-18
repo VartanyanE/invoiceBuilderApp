@@ -20,6 +20,7 @@ const invoiceSchema = mongoose.Schema({
   tax: Number,
   paymentTerms: Number,
   total: Number,
+  pastDue: false,
  
   selectedFile: "String",
   creator: "String",
