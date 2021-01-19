@@ -20,18 +20,42 @@ export default function AuthOptions() {
   };
 
   return (
-    
-    <div className= "main">
+    <div className="">
       {userData.user ? (
         <>
-        <button onClick={createInvoice}>Create Invoice</button>
-        <button onClick={logout}>Logout</button>
-        
+          <button onClick={createInvoice}>Create Invoice</button>
+          <button onClick={logout}>Logout</button>
         </>
       ) : (
         <>
-          <button style={{ color: "white", backgroundColor: "#ffce65", borderRadius: "30px", height: "60px", width: "90px", border: "none", fontFamily: 'Montserrat'  }} onClick={register}>Register</button>
-          <button style={{ color: "white", backgroundColor: "#ffce65", borderRadius: "30px", height: "60px", width: "90px", border: "none", fontFamily: 'Montserrat'  }} onClick={login}>Login</button>
+          <button
+            style={{
+              color: "white",
+              backgroundColor: "#ffce65",
+              borderRadius: "30px",
+              height: "60px",
+              width: "120px",
+              border: "none",
+              fontFamily: "Montserrat",
+            }}
+            onClick={register}
+          >
+            REGISTER{" "}
+          </button>
+          <button
+            style={{
+              color: "white",
+              backgroundColor: "#ffce65",
+              borderRadius: "30px",
+              height: "60px",
+              width: "120px",
+              border: "none",
+              fontFamily: "Montserrat",
+            }}
+            onClick={login}
+          >
+            LOGIN{" "}
+          </button>
         </>
       )}
     </div>
