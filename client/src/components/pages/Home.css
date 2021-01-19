@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #8ed9ef;
+  font-family: "Montserrat", sans-serif;
+}
+
+.main {
+  background-image: url("./coin.png");
+  background-repeat: no-repeat;
+  height: 700px;
+  width: 450px;
+}

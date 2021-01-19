@@ -1,9 +1,10 @@
 import React from "react";
 import AuthOptions from "../auth/AuthOptions";
+import "./Home.css"
 
 export default function Home() {
   return (
-    <div>
+    <div className="main">
       <AuthOptions />
     </div>
   );

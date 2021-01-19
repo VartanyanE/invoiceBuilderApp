@@ -1,6 +1,7 @@
 import React, { Component, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import "./Auth.css";
 
 export default function AuthOptions() {
   const history = useHistory();
@@ -19,7 +20,8 @@ export default function AuthOptions() {
   };
 
   return (
-    <div>
+    
+    <div className= "main">
       {userData.user ? (
         <>
         <button onClick={createInvoice}>Create Invoice</button>
@@ -28,8 +30,8 @@ export default function AuthOptions() {
         </>
       ) : (
         <>
-          <button onClick={register}>Register</button>
-          <button onClick={login}>Login</button>
+          <button style={{ color: "white", backgroundColor: "#ffce65", borderRadius: "30px", height: "60px", width: "90px", border: "none", fontFamily: 'Montserrat'  }} onClick={register}>Register</button>
+          <button style={{ color: "white", backgroundColor: "#ffce65", borderRadius: "30px", height: "60px", width: "90px", border: "none", fontFamily: 'Montserrat'  }} onClick={login}>Login</button>
         </>
       )}
     </div>

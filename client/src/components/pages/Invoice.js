@@ -191,7 +191,8 @@ export default function Invoice() {
       <div>
         {searchResultsState
           ? searchResultsState.map((results) => (
-              <h2>
+            
+              <h2 key={results._id}>
                 Invoice Number: {results.invoiceNumber} <br />
                 Company Name: {results.name}
                 <br />
@@ -205,6 +206,7 @@ export default function Invoice() {
                 <br />
                 Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
+            
             ))
           : ""}
       </div>
