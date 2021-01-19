@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { createInvoice, getInvoice, searchInvoice, isPastDue } from "../../utils/API";
+import {
+  createInvoice,
+  getInvoice,
+  searchInvoice,
+  isPastDue,
+} from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
 import FileBase from "react-file-base64";
@@ -9,63 +14,38 @@ import { set } from "mongoose";
 
 export default function Invoice() {
   const { userData } = useContext(UserContext);
- const [currentId, setCurrentId] = useState();
+  const [currentId, setCurrentId] = useState();
   const [data, setData] = useState([{}]);
   const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
     invoiceNumber: "",
   });
-  const [searchResultsState, setSearchResultsState] = useState(null);
+  const [searchResultsState, setSearchResultsState] = useState([{}]);
 
- 
   useEffect(() => {
-    
     getInvoice().then((res) => {
-      
       setInvoice(res.data);
-      console.log(res.data)
+      console.log(res.data);
     });
   }, [data]);
-  // useEffect(() => {
-  
-  //   searchInvoice(search.invoiceNumber).then((res) => {
 
-     
-  //     setSearchResultsState(res.data);
-     
-  //   setCurrentId(res.data._id)
-      
-      
-  //     });
-  // }, [search]);
-
-  // const handlePastDue = async () => {
-  //   const id = "600501b7de30ea5ab42004f4";
-  //   // await setCurrentId(id);
-  //   // console.log(searchResultsState);
-
-  //   await isPastDue(id);
-  //   // await getData().then(({ data }) => setDataBase(data));
-  // };
-  // handlePastDue();
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-   
+
     const invoiceDueDate = moment().add(data.paymentTerms, "days");
     let taxConversion = data.tax / 100;
-    console.log(taxConversion)
+    console.log(taxConversion);
     let totalPrice = (data.quantity || data.hours) * data.rate;
     let taxTotal = taxConversion * totalPrice;
     let finalTotal = totalPrice + taxTotal;
     console.log(finalTotal);
-  
+
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
@@ -74,13 +54,13 @@ export default function Invoice() {
       tax: data.tax,
       paymentTerms: data.paymentTerms,
       pastDue: false,
-     
+
       description: data.description,
       hours: data.hours,
       quantity: data.quantity,
       rate: data.rate,
       total: finalTotal,
-      
+
       selectedFile: data.selectedFile,
       creator: userData.user.id,
     });
@@ -89,17 +69,18 @@ export default function Invoice() {
 
   const handlePastDue = async (event) => {
     event.preventDefault();
-    // const invoiceDueDate = moment().add(30, "days");
-    
+
     await searchInvoice(search.invoiceNumber).then(({ data }) => {
-      setSearchResultsState(data)
-      setCurrentId(data)
-    
-    }
-   
-    
-     ) }
-     console.log(searchResultsState)
+      setSearchResultsState(data);
+      setCurrentId(searchResultsState[0]._id);
+      let currentDate = moment();
+      let dueDate = searchResultsState[0].dueDate;
+      console.log(dueDate);
+      if (currentDate.isAfter(dueDate)) {
+        isPastDue(currentId);
+      }
+    });
+  };
 
   const clearForm = () => {
     setData({
@@ -165,14 +146,13 @@ export default function Invoice() {
         <br />
         <label>Tax</label>
         <input
-        placeholder="%"
+          placeholder="%"
           value={data.tax}
           onChange={(e) => setData({ ...data, tax: e.target.value })}
         />
         <br />
         <label>Payment Terms</label>
         <input
-       
           value={data.paymentTerms}
           onChange={(e) => setData({ ...data, paymentTerms: e.target.value })}
         />
@@ -196,7 +176,7 @@ export default function Invoice() {
       </form>
       <button onClick={downloadPDF}>Download PDF</button>
       <div>
-        <form >
+        <form>
           <input
             placeholder="Enter Invoice Number"
             value={search.invoiceNumber}
@@ -208,7 +188,7 @@ export default function Invoice() {
         </form>
       </div>
 
-      {/* <div>
+      <div>
         {searchResultsState
           ? searchResultsState.map((results) => (
               <h2>
@@ -227,7 +207,7 @@ export default function Invoice() {
               </h2>
             ))
           : ""}
-      </div> */}
+      </div>
     </div>
   );
 }
