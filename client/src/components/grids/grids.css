@@ -1,0 +1,52 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-gap: 10px;
+
+  background-color: purple;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 20px;
+}
+
+.item9 {
+  grid-column: 1 / span 3;
+}
+
+.item11 {
+  grid-row: 4 / span 4;
+}
+
+.item13 {
+  grid-area: 4 / 3 / 8 / 5;
+}
+
+.item17 {
+  justify-self: start;
+}
+
+.item18 {
+  justify-self: center;
+}
+
+.item19 {
+  justify-self: end;
+}
+
+.item21 {
+  align-self: start;
+}
+
+.item22 {
+  align-self: center;
+}
+
+.item23 {
+  align-self: end;
+}

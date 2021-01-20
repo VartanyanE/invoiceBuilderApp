@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
+import Grids from "./components/grids/Grids";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Invoice from "./components/pages/Invoice";
@@ -45,7 +46,7 @@ const App = () => {
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Grids} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/invoice" component={Invoice} />
