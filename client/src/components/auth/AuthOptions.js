@@ -28,34 +28,8 @@ export default function AuthOptions() {
         </>
       ) : (
         <>
-          <button
-            style={{
-              color: "white",
-              backgroundColor: "#ffce65",
-              borderRadius: "30px",
-              height: "60px",
-              width: "120px",
-              border: "none",
-              fontFamily: "Montserrat",
-            }}
-            onClick={register}
-          >
-            REGISTER{" "}
-          </button>
-          <button
-            style={{
-              color: "white",
-              backgroundColor: "#ffce65",
-              borderRadius: "30px",
-              height: "60px",
-              width: "120px",
-              border: "none",
-              fontFamily: "Montserrat",
-            }}
-            onClick={login}
-          >
-            LOGIN{" "}
-          </button>
+          <button onClick={register}>REGISTER </button>
+          <button onClick={login}>LOGIN </button>
         </>
       )}
     </div>
