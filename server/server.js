@@ -29,7 +29,9 @@ mongoose
   })
   .then(() =>
     app.listen(PORT, () =>
-      console.log(`Server running on port Andre : ${PORT} `)
+      console.log(
+        `Server running on port Andre : ${PORT}..... yes it's an Outkast reference`
+      )
     )
   )
   .catch((error) => console.log(error));

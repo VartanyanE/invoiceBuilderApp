@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
 const moment = require("moment");
 
-
-
 // we build our schema
 
 const invoiceSchema = mongoose.Schema({
   invoiceNumber: Number,
   name: "String",
-  dueDate:  {
+  dueDate: {
     type: Date,
     default: moment().format("L"),
   },
   pastDue: Boolean,
+  dueInSeven: Boolean,
   description: "String",
   hours: Number,
   quantity: Number,
@@ -21,7 +20,7 @@ const invoiceSchema = mongoose.Schema({
   paymentTerms: Number,
   total: Number,
   pastDue: false,
- 
+
   selectedFile: "String",
   creator: "String",
   createdAt: {
