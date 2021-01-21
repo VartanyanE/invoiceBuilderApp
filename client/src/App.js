@@ -12,7 +12,9 @@ const App = () => {
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
+    check: false
   });
+ 
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -35,7 +37,9 @@ const App = () => {
         setUserData({
           token,
           user: userRes.data,
+          check: true
         });
+       
       }
     };
 
@@ -46,7 +50,7 @@ const App = () => {
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
         <Switch>
-          <Route exact path="/" component={Grids} />
+          <Route exact path="/" component={!userData.check ? Login : Invoice} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/invoice" component={Invoice} />
