@@ -1,5 +1,12 @@
-.grid {
-  display: grid;
-  grid-template-columns: 150px auto 150px;
-  grid-gap: 1em;
+body {
+  background-color: rgb(251, 244, 208);
+}
+
+h1 {
+  color: blue;
+}
+
+.input {
+  height: 100px;
+  width: 100px;
 }
