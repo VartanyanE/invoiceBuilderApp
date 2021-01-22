@@ -9,12 +9,18 @@ import UserContext from "./context/UserContext";
 import axios from "axios";
 
 const App = () => {
+<<<<<<< Updated upstream
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
     check: false
   });
  
+=======
+  const [userData, setUserData] = useState(false);
+
+  const [clicked, setClicked] = useState(false);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const checkLoggedIn = async () => {
