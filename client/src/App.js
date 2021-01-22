@@ -6,21 +6,17 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Invoice from "./components/pages/Invoice";
 import UserContext from "./context/UserContext";
+import ClickedContext from "./context/ClickedContext";
 import axios from "axios";
 
 const App = () => {
-<<<<<<< Updated upstream
-  const [userData, setUserData] = useState({
-    token: undefined,
-    user: undefined,
-    check: false
-  });
+
  
-=======
+
   const [userData, setUserData] = useState(false);
 
   const [clicked, setClicked] = useState(false);
->>>>>>> Stashed changes
+
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -43,24 +39,23 @@ const App = () => {
         setUserData({
           token,
           user: userRes.data,
-          check: true
         });
-       
       }
     };
 
     checkLoggedIn();
-    
   }, []);
   return (
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
-        <Switch>
-          <Route exact path="/" component={!userData.check ? Login : Invoice} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/invoice" component={Invoice} />
-        </Switch>
+        <ClickedContext.Provider value={{ clicked, setClicked }}>
+          <Switch>
+            <Route exact path="/" component={!userData ? Login : Invoice} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/invoice" component={Invoice} />
+          </Switch>
+        </ClickedContext.Provider>
       </UserContext.Provider>
     </BrowserRouter>
   );
