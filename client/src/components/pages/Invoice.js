@@ -5,6 +5,7 @@ import {
   getInvoice,
   searchInvoice,
   isPastDue,
+  searchByName,
 } from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
@@ -20,7 +21,11 @@ export default function Invoice() {
   const [search, setSearch] = useState({
     invoiceNumber: "",
   });
+  const [searchName, setSearchName] = useState({
+    name: "",
+  });
   const [searchResultsState, setSearchResultsState] = useState([{}]);
+  const [searchResultsName, setSearchResultsName] = useState([{}]);
 
   useEffect(() => {
     getInvoice().then((res) => {
@@ -79,6 +84,21 @@ export default function Invoice() {
       if (currentDate.isAfter(dueDate)) {
         isPastDue(currentId);
       }
+    });
+  };
+
+  const handleSearchByName = async (event) => {
+    event.preventDefault();
+
+    await searchByName(searchName.name).then(({ data }) => {
+      setSearchResultsName(data);
+      // setCurrentId(searchResultsState[0]._id);
+      // let currentDate = moment();
+      // let dueDate = searchResultsState[0].dueDate;
+      // console.log(dueDate);
+      // if (currentDate.isAfter(dueDate)) {
+      //   isPastDue(currentId);
+      // }
     });
   };
 
@@ -184,7 +204,19 @@ export default function Invoice() {
               setSearch({ ...search, invoiceNumber: e.target.value });
             }}
           />
-          <button onClick={handlePastDue}>Search</button>
+          <button onClick={handlePastDue}>Search By Invoice</button>
+        </form>
+      </div>
+      <div>
+        <form>
+          <input
+            placeholder="Enter Customer Name"
+            value={searchName.name}
+            onChange={(e) => {
+              setSearchName({ ...searchName, name: e.target.value });
+            }}
+          />
+          <button onClick={handleSearchByName}>Search By Name</button>
         </form>
       </div>
 

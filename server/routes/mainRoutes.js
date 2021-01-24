@@ -6,6 +6,7 @@ const {
   searchInvoice,
   isPastDue,
   dueInSeven,
+  searchByName,
 } = require("../controllers/mainController.js");
 const auth = require("../middleware/auth.js");
 
@@ -15,6 +16,7 @@ const router = express.Router();
 router.get("/", getInvoice);
 // router.get("/:id", getLikes);
 router.get("/search/:common_invoice_number", searchInvoice);
+router.get("/search/byname/:name", searchByName);
 
 router.post("/", createInvoice);
 router.delete("/delete/:id", deleteInvoice);

@@ -42,6 +42,19 @@ module.exports.searchInvoice = async (req, res) => {
   }
 };
 
+module.exports.searchByName= async (req, res) => {
+  try {
+    //run .find() on our model
+    const searchName = await invoiceModel.find({
+      name: req.params.name,
+    });
+
+    res.status(200).json(searchName);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.isPastDue = async (req, res) => {
   try {
     const changePastDue = await invoiceModel.findByIdAndUpdate(
