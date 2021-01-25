@@ -16,6 +16,7 @@ import { set } from "mongoose";
 export default function Invoice() {
   const { userData } = useContext(UserContext);
   const [currentId, setCurrentId] = useState();
+  const [arrayGrab, setArrayGrab]= useState([{}]);
   const [data, setData] = useState([{}]);
   const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
@@ -24,8 +25,10 @@ export default function Invoice() {
   const [searchName, setSearchName] = useState({
     name: "",
   });
-  const [searchResultsState, setSearchResultsState] = useState([{}]);
-  const [searchResultsName, setSearchResultsName] = useState([{}]);
+  const [searchResultsState, setSearchResultsState] = useState([{    empty: true}]);
+  const [searchResultsName, setSearchResultsName] = useState([{
+
+  }]);
 
   useEffect(() => {
     getInvoice().then((res) => {
@@ -34,6 +37,15 @@ export default function Invoice() {
     });
   }, [data]);
 
+  useEffect(() => {
+    const arrayGrabber = async () => {
+     await setArrayGrab(searchResultsName);
+   
+    }
+    arrayGrabber();
+  }, [searchResultsName]);
+
+ console.log(arrayGrab);
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -92,13 +104,7 @@ export default function Invoice() {
 
     await searchByName(searchName.name).then(({ data }) => {
       setSearchResultsName(data);
-      // setCurrentId(searchResultsState[0]._id);
-      // let currentDate = moment();
-      // let dueDate = searchResultsState[0].dueDate;
-      // console.log(dueDate);
-      // if (currentDate.isAfter(dueDate)) {
-      //   isPastDue(currentId);
-      // }
+      
     });
   };
 
@@ -137,6 +143,7 @@ export default function Invoice() {
       });
   };
 
+// console.log(arrayGrab);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -221,7 +228,7 @@ export default function Invoice() {
       </div>
 
       <div>
-        {searchResultsState
+        {searchResultsState.empty === false
           ? searchResultsState.map((results) => (
             
               <h2 key={results._id}>
@@ -242,6 +249,28 @@ export default function Invoice() {
             ))
           : ""}
       </div>
+      {/* <div>
+        {   arrayGrab ?
+           arrayGrab.map((results) => (
+            
+              <h2 key={results._id}>
+                Invoice Number: {results.invoiceNumber} <br />
+                Company Name: {results.name}
+                <br />
+                Description: {results.description}
+                <br />
+                Hours: {results.hours}
+                <br />
+                Rate: {results.rate}
+                <br />
+                Total: {results.total}
+                <br />
+                Status: {results.pastDue ? "Past Due!" : "Current"}
+              </h2>
+            
+            ))
+          :""}
+      </div> */}
     </div>
   );
 }
