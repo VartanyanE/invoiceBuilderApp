@@ -16,8 +16,11 @@ import { set } from "mongoose";
 export default function Invoice() {
   const { userData } = useContext(UserContext);
   const [currentId, setCurrentId] = useState();
-  const [arrayGrab, setArrayGrab]= useState([{}]);
+  const [arrayGrab, setArrayGrab] = useState([{}]);
   const [data, setData] = useState([{}]);
+  const [showInvoiceResults, setShowInvoiceResults] = useState(false);
+  const [showCustomerResults, setShowCustomerResults] = useState(false);
+
   const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
     invoiceNumber: "",
@@ -25,10 +28,8 @@ export default function Invoice() {
   const [searchName, setSearchName] = useState({
     name: "",
   });
-  const [searchResultsState, setSearchResultsState] = useState([{    empty: true}]);
-  const [searchResultsName, setSearchResultsName] = useState([{
-
-  }]);
+  const [searchResultsState, setSearchResultsState] = useState([{}]);
+  const [searchResultsName, setSearchResultsName] = useState([{}]);
 
   useEffect(() => {
     getInvoice().then((res) => {
@@ -39,13 +40,12 @@ export default function Invoice() {
 
   useEffect(() => {
     const arrayGrabber = async () => {
-     await setArrayGrab(searchResultsName);
-   
-    }
+      await setArrayGrab(searchResultsName);
+    };
     arrayGrabber();
   }, [searchResultsName]);
 
- console.log(arrayGrab);
+  console.log(arrayGrab);
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -66,7 +66,7 @@ export default function Invoice() {
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
-      name: data.name,
+      name: data.name.toUpperCase(),
       dueDate: invoiceDueDate,
       tax: data.tax,
       paymentTerms: data.paymentTerms,
@@ -88,6 +88,7 @@ export default function Invoice() {
     event.preventDefault();
 
     await searchInvoice(search.invoiceNumber).then(({ data }) => {
+      setShowInvoiceResults(true);
       setSearchResultsState(data);
       setCurrentId(searchResultsState[0]._id);
       let currentDate = moment();
@@ -104,8 +105,8 @@ export default function Invoice() {
 
     await searchByName(searchName.name).then(({ data }) => {
       setSearchResultsName(data);
-      
     });
+    await setShowCustomerResults(true);
   };
 
   const clearForm = () => {
@@ -143,7 +144,7 @@ export default function Invoice() {
       });
   };
 
-// console.log(arrayGrab);
+  // console.log(arrayGrab);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -220,7 +221,10 @@ export default function Invoice() {
             placeholder="Enter Customer Name"
             value={searchName.name}
             onChange={(e) => {
-              setSearchName({ ...searchName, name: e.target.value });
+              setSearchName({
+                ...searchName,
+                name: e.target.value,
+              });
             }}
           />
           <button onClick={handleSearchByName}>Search By Name</button>
@@ -228,9 +232,8 @@ export default function Invoice() {
       </div>
 
       <div>
-        {searchResultsState.empty === false
+        {showInvoiceResults
           ? searchResultsState.map((results) => (
-            
               <h2 key={results._id}>
                 Invoice Number: {results.invoiceNumber} <br />
                 Company Name: {results.name}
@@ -245,14 +248,12 @@ export default function Invoice() {
                 <br />
                 Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
-            
             ))
           : ""}
       </div>
-      {/* <div>
-        {   arrayGrab ?
-           arrayGrab.map((results) => (
-            
+      <div>
+        {showCustomerResults
+          ? arrayGrab.map((results) => (
               <h2 key={results._id}>
                 Invoice Number: {results.invoiceNumber} <br />
                 Company Name: {results.name}
@@ -267,10 +268,9 @@ export default function Invoice() {
                 <br />
                 Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
-            
             ))
-          :""}
-      </div> */}
+          : ""}
+      </div>
     </div>
   );
 }

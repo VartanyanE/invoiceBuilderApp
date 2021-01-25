@@ -42,11 +42,11 @@ module.exports.searchInvoice = async (req, res) => {
   }
 };
 
-module.exports.searchByName= async (req, res) => {
+module.exports.searchByName = async (req, res) => {
   try {
     //run .find() on our model
     const searchName = await invoiceModel.find({
-      name: req.params.name,
+      name: req.params.name.toUpperCase(),
     });
 
     res.status(200).json(searchName);
