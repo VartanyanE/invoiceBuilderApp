@@ -16,6 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import UserContext from "../../context/UserContext";
 import ClickedContext from "../../context/ClickedContext";
 import { useHistory } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 function Copyright() {
   return (
@@ -94,7 +95,7 @@ export default function SignInSide() {
     history.push("/invoice");
   };
   console.log(clicked);
-
+  let checkAuth = localStorage.getItem("auth-token");
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

@@ -1,8 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const cors = require("cors");
-const userRouter = require("./routes/userRoutes.js");
+const cors = require("cors"); const userRouter = require("./routes/userRoutes.js");
 const invoiceRoutes = require("./routes/mainRoutes.js");
 const pdfRoutes = require("./pdfRoutes.js");
 const dotenv = require("dotenv");

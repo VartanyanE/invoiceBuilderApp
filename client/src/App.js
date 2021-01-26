@@ -8,15 +8,12 @@ import Invoice from "./components/pages/Invoice";
 import UserContext from "./context/UserContext";
 import ClickedContext from "./context/ClickedContext";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 const App = () => {
-
- 
-
   const [userData, setUserData] = useState(false);
 
   const [clicked, setClicked] = useState(false);
-
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -50,7 +47,7 @@ const App = () => {
       <UserContext.Provider value={{ userData, setUserData }}>
         <ClickedContext.Provider value={{ clicked, setClicked }}>
           <Switch>
-            <Route exact path="/" component={!userData ? Login : Invoice} />
+            <Route exact path="/" component={userData ? Invoice : Login} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/invoice" component={Invoice} />
