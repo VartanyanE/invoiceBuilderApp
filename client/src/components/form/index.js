@@ -14,9 +14,16 @@ const useStyles = makeStyles(theme => ({
   },
   gridContainer: {
     backgroundColor: amber[300],
+    // justifyContent: "space-between",
+    margin: "1.5rem ",
+    padding: "1.5rem",
   },
   textField: {
     color: deepPurple[50],
+  },
+
+  test: {
+    justifyContent: "space-between",
   },
 }));
 
@@ -25,76 +32,83 @@ export default function BasicTextFields() {
 
   return (
     <div className={classes.root} noValidate autoComplete="off">
-      <Grid
-        container
-        spacing={3}
-        className={classes.gridContainer}
-        direction="column"
-      >
-        <Grid item xs={4}>
-          <TextField
-            className={classes.textField}
-            id="outlined-basic"
-            label="Your Name"
-            variant="outlined"
-          />
+      <Grid container spacing={1} className={classes.test}>
+        <Grid
+          container
+          item
+          spacing={3}
+          xs={4}
+          className={classes.gridContainer}
+          direction="column"
+        >
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              id="outlined-basic"
+              label="Your Name"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Your Address"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Invoice Date"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Payment due"
+              variant="outlined"
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Your Address"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Invoice Date"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Payment due"
-            variant="outlined"
-          />
-        </Grid>
-      </Grid>
-      {/* ---------------------------------------------------------- */}
-      <Grid
-        container
-        spacing={3}
-        className={classes.gridContainer}
-        direction="column"
-      >
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Client Name/Business"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Client Email"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Client's Phone"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Client's Address"
-            variant="outlined"
-          />
+
+        {/* ---------------------------------------------------------- */}
+        <Grid
+          container
+          item
+          spacing={3}
+          xs={4}
+          className={classes.gridContainer}
+          direction="column"
+        >
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Client Name/Business"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Client Email"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Client's Phone"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Client's Address"
+              variant="outlined"
+            />
+          </Grid>
         </Grid>
       </Grid>
       {/* -------------------------------------------------------- */}
