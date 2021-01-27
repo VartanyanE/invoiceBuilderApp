@@ -7,11 +7,11 @@ import "./Home.css";
 import { ThemeProvider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import theme from "../../theme";
-import Form from "../form";
-import TopNav from "../topNav";
+import Form from "../form/Form";
+import TopNav from "../topNav/TopNav";
 
 // import Box from "@material-ui/core/Box";
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
