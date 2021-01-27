@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState(localStorage.getItem("email"));
   const [password, setPassword] = useState();
   // const [clicked, setClicked] = useState(false);
 
