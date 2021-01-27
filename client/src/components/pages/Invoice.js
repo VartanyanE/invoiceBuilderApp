@@ -5,6 +5,7 @@ import {
   getInvoice,
   searchInvoice,
   isPastDue,
+  searchByName,
 } from "../../utils/API";
 import UserContext from "../../context/UserContext";
 import { saveAs } from "file-saver";
@@ -15,12 +16,20 @@ import { set } from "mongoose";
 export default function Invoice() {
   const { userData } = useContext(UserContext);
   const [currentId, setCurrentId] = useState();
+  const [arrayGrab, setArrayGrab] = useState([{}]);
   const [data, setData] = useState([{}]);
+  const [showInvoiceResults, setShowInvoiceResults] = useState(false);
+  const [showCustomerResults, setShowCustomerResults] = useState(false);
+
   const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
     invoiceNumber: "",
   });
+  const [searchName, setSearchName] = useState({
+    name: "",
+  });
   const [searchResultsState, setSearchResultsState] = useState([{}]);
+  const [searchResultsName, setSearchResultsName] = useState([{}]);
 
   useEffect(() => {
     getInvoice().then((res) => {
@@ -29,6 +38,14 @@ export default function Invoice() {
     });
   }, [data]);
 
+  useEffect(() => {
+    const arrayGrabber = async () => {
+      await setArrayGrab(searchResultsName);
+    };
+    arrayGrabber();
+  }, [searchResultsName]);
+
+  console.log(arrayGrab);
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -49,7 +66,7 @@ export default function Invoice() {
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
-      name: data.name,
+      name: data.name.toUpperCase(),
       dueDate: invoiceDueDate,
       tax: data.tax,
       paymentTerms: data.paymentTerms,
@@ -71,6 +88,7 @@ export default function Invoice() {
     event.preventDefault();
 
     await searchInvoice(search.invoiceNumber).then(({ data }) => {
+      setShowInvoiceResults(true);
       setSearchResultsState(data);
       setCurrentId(searchResultsState[0]._id);
       let currentDate = moment();
@@ -80,6 +98,15 @@ export default function Invoice() {
         isPastDue(currentId);
       }
     });
+  };
+
+  const handleSearchByName = async (event) => {
+    event.preventDefault();
+
+    await searchByName(searchName.name).then(({ data }) => {
+      setSearchResultsName(data);
+    });
+    await setShowCustomerResults(true);
   };
 
   const clearForm = () => {
@@ -117,6 +144,7 @@ export default function Invoice() {
       });
   };
 
+  // console.log(arrayGrab);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -184,14 +212,28 @@ export default function Invoice() {
               setSearch({ ...search, invoiceNumber: e.target.value });
             }}
           />
-          <button onClick={handlePastDue}>Search</button>
+          <button onClick={handlePastDue}>Search By Invoice</button>
+        </form>
+      </div>
+      <div>
+        <form>
+          <input
+            placeholder="Enter Customer Name"
+            value={searchName.name}
+            onChange={(e) => {
+              setSearchName({
+                ...searchName,
+                name: e.target.value,
+              });
+            }}
+          />
+          <button onClick={handleSearchByName}>Search By Name</button>
         </form>
       </div>
 
       <div>
-        {searchResultsState
+        {showInvoiceResults
           ? searchResultsState.map((results) => (
-            
               <h2 key={results._id}>
                 Invoice Number: {results.invoiceNumber} <br />
                 Company Name: {results.name}
@@ -206,7 +248,26 @@ export default function Invoice() {
                 <br />
                 Status: {results.pastDue ? "Past Due!" : "Current"}
               </h2>
-            
+            ))
+          : ""}
+      </div>
+      <div>
+        {showCustomerResults
+          ? arrayGrab.map((results) => (
+              <h2 key={results._id}>
+                Invoice Number: {results.invoiceNumber} <br />
+                Company Name: {results.name}
+                <br />
+                Description: {results.description}
+                <br />
+                Hours: {results.hours}
+                <br />
+                Rate: {results.rate}
+                <br />
+                Total: {results.total}
+                <br />
+                Status: {results.pastDue ? "Past Due!" : "Current"}
+              </h2>
             ))
           : ""}
       </div>

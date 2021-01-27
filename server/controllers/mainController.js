@@ -1,6 +1,6 @@
-const  invoiceModel = require ("../models/mainModel.js");
-const auth = require ("../middleware/auth.js");
-const moment = require ("moment");
+const invoiceModel = require("../models/mainModel.js");
+const auth = require("../middleware/auth.js");
+const moment = require("moment");
 const { db } = require("../models/mainModel.js");
 
 module.exports.createInvoice = async (req, res) => {
@@ -20,14 +20,10 @@ module.exports.createInvoice = async (req, res) => {
 };
 
 module.exports.getInvoice = async (req, res) => {
- 
-
   try {
-    const getInvoice = await invoiceModel.find().sort({'_id':-1}).limit(1)
-    
+    const getInvoice = await invoiceModel.find().sort({ _id: -1 }).limit(1);
+
     res.status(200).json(getInvoice);
-   
-    
   } catch (error) {
     console.log(error);
   }
@@ -40,29 +36,20 @@ module.exports.searchInvoice = async (req, res) => {
       invoiceNumber: req.params.common_invoice_number,
     });
 
- 
-     
-    // console.log(searchPayload);
- 
-    // if (currentDate.isAfter(dueDate)) {
-    //  var modifiedInvoice = [{
-    //    invoiceNumber: searchPayload[0].invoiceNumber,
-    //    name: searchPayload[0].name,
-    //    pastDue: true,
-    //    description: searchPayload[0].description
-    //  }] 
-    // } else {
-    //   var modifiedInvoice = [{
-    //     invoiceNumber: searchPayload[0].invoiceNumber,
-    //     name: searchPayload[0].name,
-    //     pastDue: false,
-    //     description: searchPayload[0].description
-    //   }] 
-
-    // }
-    // return status and send our payload in the response
     res.status(200).json(searchPayload);
-    
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.searchByName = async (req, res) => {
+  try {
+    //run .find() on our model
+    const searchName = await invoiceModel.find({
+      name: req.params.name.toUpperCase(),
+    });
+
+    res.status(200).json(searchName);
   } catch (error) {
     console.log(error);
   }
@@ -82,7 +69,25 @@ module.exports.isPastDue = async (req, res) => {
       }
     );
     res.status(200).json(changePastDue);
-   
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.dueInSeven = async (req, res) => {
+  try {
+    const changePastDue = await invoiceModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          dueInSeven: true,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(changePastDue);
   } catch (error) {
     console.log(error);
   }
@@ -99,4 +104,3 @@ module.exports.deleteInvoice = async (req, res) => {
     console.log(error);
   }
 };
-
