@@ -92,7 +92,7 @@ export default function SignInSide() {
     if (clicked) {
       localStorage.setItem("email", email);
     }
-    history.push("/invoice");
+    history.push("/");
   };
   console.log(clicked);
   let checkAuth = localStorage.getItem("auth-token");
