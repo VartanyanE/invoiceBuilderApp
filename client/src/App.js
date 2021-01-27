@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
-import Grids from "./components/grids/Grids";
+// import Grids from "./components/grids/Grids";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Invoice from "./components/pages/Invoice";
@@ -45,14 +45,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
+
         <ClickedContext.Provider value={{ clicked, setClicked }}>
           <Switch>
-            <Route exact path="/" component={userData ? Invoice : Login} />
+            <Route exact path="/" component={userData ? Home : Login} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/invoice" component={Invoice} />
           </Switch>
         </ClickedContext.Provider>
+
       </UserContext.Provider>
     </BrowserRouter>
   );
