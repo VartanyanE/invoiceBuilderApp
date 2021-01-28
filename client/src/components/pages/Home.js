@@ -1,9 +1,8 @@
-
 import React from "react";
 // import ReactDOM from "react-dom";
 import { Container } from "@material-ui/core";
 import AuthOptions from "../auth/AuthOptions";
-import "fontsource-roboto";
+// import "fontsource-roboto";
 import "./Home.css";
 import { ThemeProvider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,5 +33,3 @@ export default function Home() {
     </ThemeProvider>
   );
 }
-
-

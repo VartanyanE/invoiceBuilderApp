@@ -36,7 +36,7 @@ export const searchInvoice = function (common_invoice_number) {
 };
 
 export const searchByName = function (name) {
-  return axios.get("/api/data/search/byname/" + name);
+  return axios.get("/api/data/search/byName/" + name);
 };
 
 // export const deleteData = function (id) {
