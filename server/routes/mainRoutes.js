@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/", getInvoice);
 // router.get("/:id", getLikes);
 router.get("/search/:common_invoice_number", searchInvoice);
-router.get("/search/byname/:name", searchByName);
+router.get("/search/byName/:name", searchByName);
 
 router.post("/", createInvoice);
 router.delete("/delete/:id", deleteInvoice);
