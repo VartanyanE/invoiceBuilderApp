@@ -43,7 +43,38 @@ export default function BasicTextFields() {
   const classes = useStyles();
   const [data, setData] = useState([{}]);
   const [item, setItem] = useState([]);
+  const [inputList, setInputList] = useState([
+    {
+      itemName: "",
+      description: "",
+      quantity: "",
+      rate: "",
+    },
+  ]);
   const { userData } = useContext(UserContext);
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    console.log(value);
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+
+  // handle click event of the Remove button
+  const handleRemoveClick = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setInputList([
+      ...inputList,
+      { itemName: "", description: "", quantity: "", rate: "" },
+    ]);
+  };
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -71,11 +102,11 @@ export default function BasicTextFields() {
       tax: data.tax,
       paymentTerms: data.paymentTerms,
       pastDue: false,
-
-      description: data.description,
+      itemName: inputList[0].itemName,
+      description: inputList[0].description,
       hours: data.hours,
-      quantity: data.quantity,
-      rate: data.rate,
+      quantity: inputList[0].quantity,
+      rate: inputList[0].rate,
       total: finalTotal,
       thankYouMessage: data.thankYouMessage,
 
@@ -176,46 +207,56 @@ export default function BasicTextFields() {
         </Grid>
         {/* -------------------------------------------------------- */}
         <Grid container spacing={3} className={classes.gridContainer}>
-          <Grid item xs={3}>
-            <TextField
-              className={classes.textField}
-              id="itemName"
-              label="Item Name"
-              variant="outlined"
-              onChange={(e) => setData({ ...data, itemName: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="description"
-              label="Description"
-              variant="outlined"
-              onChange={(e) =>
-                setData({ ...data, description: e.target.value })
-              }
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="quantity"
-              label="Quantity"
-              variant="outlined"
-              onChange={(e) => setData({ ...data, quantity: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              id="rate"
-              label="Rate"
-              variant="outlined"
-              onChange={(e) => setData({ ...data, rate: e.target.value })}
-            />
-          </Grid>
-          {item.map((result) => result)}
-          <AddIcon
-            className={classes.addIcon}
-            onClick={() => setItem([`<h1>Hello World </h1>`])}
-          />
+          {inputList.map((x, i) => {
+            return (
+              <>
+                <Grid item xs={3}>
+                  <TextField
+                    className={classes.textField}
+                    name="itemName"
+                    id="itemName"
+                    label="Item Name"
+                    variant="outlined"
+                    value={x.itemName}
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="description"
+                    name="description"
+                    label="Description"
+                    variant="outlined"
+                    value={x.description}
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="quantity"
+                    name="quantity"
+                    label="Quantity"
+                    variant="outlined"
+                    value={x.quantity}
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="rate"
+                    name="rate"
+                    label="Rate"
+                    variant="outlined"
+                    value={x.rate}
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+              </>
+            );
+          })}
+
+          {/* {item.map((result) => result)} */}
+          <AddIcon className={classes.addIcon} onClick={handleAddClick} />
         </Grid>
         <br />
         <Grid container spacing={3} className={classes.gridContainer}>

@@ -11,7 +11,11 @@ import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 
 const App = () => {
-  const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState([
+    {
+      user: "",
+    },
+  ]);
 
   const [clicked, setClicked] = useState(false);
 
@@ -45,16 +49,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <UserContext.Provider value={{ userData, setUserData }}>
-
         <ClickedContext.Provider value={{ clicked, setClicked }}>
           <Switch>
-            <Route exact path="/" component={userData ? Home : Login} />
+            <Route exact path="/" component={userData.user ? Home : Login} />
+            <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/invoice" component={Invoice} />
           </Switch>
         </ClickedContext.Provider>
-
       </UserContext.Provider>
     </BrowserRouter>
   );
