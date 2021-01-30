@@ -59,6 +59,7 @@ export default function BasicTextFields() {
     const list = [...inputList];
     list[index][name] = value;
     setInputList(list);
+    console.log(inputList);
   };
 
   // handle click event of the Remove button
@@ -89,6 +90,7 @@ export default function BasicTextFields() {
     // let taxConversion = data.tax / 100;
     // console.log(taxConversion);
     // let totalPrice = (data.quantity || data.hours) * data.rate;
+
     // let taxTotal = taxConversion * totalPrice;
     // let finalTotal = totalPrice + taxTotal;
     let finalTotal = data.quantity * data.rate;
@@ -101,12 +103,15 @@ export default function BasicTextFields() {
       dueDate: invoiceDueDate,
       tax: data.tax,
       paymentTerms: data.paymentTerms,
+      item: inputList,
       pastDue: false,
-      itemName: inputList[0].itemName,
-      description: inputList[0].description,
+      clientName: data.clientName,
+      clientEmail: data.clientEmail,
+      clientNumber: data.clientNumber,
+      clientAddress: data.clientAddress,
+
       hours: data.hours,
-      quantity: inputList[0].quantity,
-      rate: inputList[0].rate,
+
       total: finalTotal,
       thankYouMessage: data.thankYouMessage,
 
@@ -182,6 +187,9 @@ export default function BasicTextFields() {
               id="outlined-basic"
               label="Client Email"
               variant="outlined"
+              onChange={(e) =>
+                setData({ ...data, clientEmail: e.target.value })
+              }
             />
           </Grid>
           <Grid item>
