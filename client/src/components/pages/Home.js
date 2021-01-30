@@ -25,7 +25,6 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <TopNav />
       <div className="main">
-        <AuthOptions />
         <Container maxWidth="sm">
           <Form />
         </Container>

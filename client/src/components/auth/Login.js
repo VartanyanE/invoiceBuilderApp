@@ -110,17 +110,24 @@ export default function SignInSide() {
           </Typography>
           <form className={classes.form} noValidate onSubmit={loginSubmit}>
             <TextField
-              value={localStorage.getItem("email")}
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
-              label={!localStorage.getItem("email") ? "Email Address" : ""}
+              label={
+                !localStorage.getItem("email")
+                  ? "Email Address"
+                  : localStorage.getItem("email")
+              }
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                localStorage.getItem("email")
+                  ? setEmail(localStorage.getItem("email"))
+                  : setEmail(e.target.value)
+              }
             />
             <TextField
               variant="outlined"
