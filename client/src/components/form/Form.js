@@ -118,7 +118,7 @@ export default function BasicTextFields() {
       selectedFile: data.selectedFile,
       creator: userData.user.id,
     });
-    // await clearForm();
+    await clearForm();
   };
 
   const clearForm = () => {

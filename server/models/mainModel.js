@@ -17,6 +17,8 @@ const invoiceSchema = mongoose.Schema({
   clientNumber: Number,
   clientAddress: "String",
   item: [],
+  quantity: Number,
+  rate: Number,
   hours: Number,
   tax: Number,
   total: Number,
