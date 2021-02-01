@@ -1,13 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core";
 import { purple, yellow } from "@material-ui/core/colors";
 import AddIcon from "@material-ui/icons/Add";
 import moment from "moment";
+import { saveAs } from "file-saver";
+import FileBase from "react-file-base64";
 import Item from "./Item";
 import {
   createInvoice,
+  getLogo,
   // getInvoice,
   // searchInvoice,
   // isPastDue,
@@ -37,12 +40,21 @@ const useStyles = makeStyles((theme) => ({
   addIcon: {
     margin: "10px",
   },
+  logo: {
+    height: "60px",
+    width: "60px",
+  },
+  logo_grow: {
+    border: "4px solid green",
+  },
 }));
 
 export default function BasicTextFields() {
   const classes = useStyles();
   const [data, setData] = useState([{}]);
+  const [logo, setLogo] = useState([{}]);
   const [item, setItem] = useState([]);
+  const [selected, setSelected] = useState(false);
   const [inputList, setInputList] = useState([
     {
       itemName: "",
@@ -52,6 +64,14 @@ export default function BasicTextFields() {
     },
   ]);
   const { userData } = useContext(UserContext);
+
+  useEffect(() => {
+    getLogo().then((res) => {
+      setLogo(res.data);
+    });
+  }, []);
+  console.log(data);
+  console.log(selected);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -116,6 +136,7 @@ export default function BasicTextFields() {
       thankYouMessage: data.thankYouMessage,
 
       selectedFile: data.selectedFile,
+      selectedLogo: data.selelctedLogo,
       creator: userData.user.id,
     });
     await clearForm();
@@ -135,6 +156,36 @@ export default function BasicTextFields() {
   return (
     <div className={classes.root} noValidate autoComplete="off">
       <form onSubmit={handleSubmit}>
+        Upload a logo{" "}
+        <FileBase
+          id="upload logo"
+          type="file"
+          multiple={false}
+          onDone={({ base64 }) => setData({ ...data, selectedFile: base64 })}
+        />
+        {logo.map((x, i) => {
+          let selectedClass = selected ? "logo_grow" : "";
+          return (
+            <>
+              {x.selectedFile ? (
+                <div className={classes.logo}>
+                  <img
+                    className={selected ? classes.logo_grow : ""}
+                    style={{ height: "100%", width: "100%" }}
+                    src={x.selectedFile}
+                    onClick={() => {
+                      setData({ ...data, selectedLogo: x.selectedFile });
+                      console.log("ok then");
+                      setSelected(!selected);
+                    }}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </>
+          );
+        })}
         <Grid container spacing={3} className={classes.gridContainer}>
           <Grid item>
             <TextField
@@ -165,7 +216,6 @@ export default function BasicTextFields() {
             />
           </Grid>
         </Grid>
-
         {/* ---------------------------------------------------------- */}
         <Grid
           container

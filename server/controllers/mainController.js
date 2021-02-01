@@ -29,6 +29,16 @@ module.exports.getInvoice = async (req, res) => {
   }
 };
 
+module.exports.getLogo = async (req, res) => {
+  try {
+    const getLogo = await invoiceModel.find({}, { selectedFile: true });
+
+    res.status(200).json(getLogo);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.searchInvoice = async (req, res) => {
   try {
     //run .find() on our model
