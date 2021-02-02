@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import UserContext from "../../context/UserContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core";
@@ -51,10 +51,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasicTextFields() {
   const classes = useStyles();
+  const changeSizeRef = useRef(0);
   const [data, setData] = useState([{}]);
   const [logo, setLogo] = useState([{}]);
   const [item, setItem] = useState([]);
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState();
   const [inputList, setInputList] = useState([
     {
       itemName: "",
@@ -70,8 +71,9 @@ export default function BasicTextFields() {
       setLogo(res.data);
     });
   }, []);
-  console.log(data);
-  console.log(selected);
+  console.log(changeSizeRef);
+  // console.log(data);
+  // console.log(selected);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -80,6 +82,16 @@ export default function BasicTextFields() {
     list[index][name] = value;
     setInputList(list);
     console.log(inputList);
+  };
+
+  const changeSize = (index) => {
+    let currentIndex = (changeSizeRef.current.id = index);
+    console.log(currentIndex);
+    if (!selected && currentIndex === index) {
+      changeSizeRef.current.style.border = "2px solid red";
+    } else {
+      changeSizeRef.current.style.border = "none";
+    }
   };
 
   // handle click event of the Remove button
@@ -164,18 +176,19 @@ export default function BasicTextFields() {
           onDone={({ base64 }) => setData({ ...data, selectedFile: base64 })}
         />
         {logo.map((x, i) => {
-          let selectedClass = selected ? "logo_grow" : "";
+          // let selectedClass = selected ? "logo_grow" : "";
           return (
             <>
               {x.selectedFile ? (
                 <div className={classes.logo}>
                   <img
-                    className={selected ? classes.logo_grow : ""}
+                    // className={selected ? classes.logo_grow : ""}
+                    ref={changeSizeRef}
                     style={{ height: "100%", width: "100%" }}
                     src={x.selectedFile}
                     onClick={() => {
                       setData({ ...data, selectedLogo: x.selectedFile });
-                      console.log("ok then");
+                      changeSize(i);
                       setSelected(!selected);
                     }}
                   />
