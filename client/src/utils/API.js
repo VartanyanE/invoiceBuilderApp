@@ -4,6 +4,10 @@ export const getInvoice = function () {
   return axios.get("/api/data");
 };
 
+export const getLogo = function () {
+  return axios.get("/api/data/logo");
+};
+
 // export const getLikes = function (id) {
 //   return axios.get("/api/data/" + id);
 // };

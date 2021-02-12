@@ -7,6 +7,7 @@ const {
   isPastDue,
   dueInSeven,
   searchByName,
+  getLogo,
 } = require("../controllers/mainController.js");
 const auth = require("../middleware/auth.js");
 
@@ -14,6 +15,7 @@ const router = express.Router();
 
 // specify the endpoints and the functions we want to call
 router.get("/", getInvoice);
+router.get("/logo", getLogo);
 // router.get("/:id", getLikes);
 router.get("/search/:common_invoice_number", searchInvoice);
 router.get("/search/byName/:name", searchByName);

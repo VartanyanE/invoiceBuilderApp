@@ -26,6 +26,7 @@ const invoiceSchema = mongoose.Schema({
   dueInSeven: Boolean,
   pastDue: false,
   selectedFile: "String",
+  selectedLogo: "String",
   creator: "String",
   createdAt: {
     type: Date,
