@@ -51,7 +51,7 @@ const App = () => {
       <UserContext.Provider value={{ userData, setUserData }}>
         <ClickedContext.Provider value={{ clicked, setClicked }}>
           <Switch>
-            <Route exact path="/" component={userData.user ? Home : Login} />
+            <Route exact path="/" component={Invoice} />
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />

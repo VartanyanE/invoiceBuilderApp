@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import "./Home.css";
+
 import {
   createInvoice,
   getInvoice,
@@ -18,8 +20,8 @@ export default function Invoice() {
   const [currentId, setCurrentId] = useState();
   const [arrayGrab, setArrayGrab] = useState([{}]);
   const [data, setData] = useState([{}]);
-  const [showInvoiceResults, setShowInvoiceResults] = useState(false);
-  const [showCustomerResults, setShowCustomerResults] = useState(false);
+  const [showInvoiceResults, setShowInvoiceResults] = useState(true);
+  const [showCustomerResults, setShowCustomerResults] = useState(true);
 
   const [invoice, setInvoice] = useState([{}]);
   const [search, setSearch] = useState({
@@ -61,25 +63,33 @@ export default function Invoice() {
     let totalPrice = (data.quantity || data.hours) * data.rate;
     let taxTotal = taxConversion * totalPrice;
     let finalTotal = totalPrice + taxTotal;
+    let floatTotal = finalTotal.toFixed(2);
     console.log(finalTotal);
 
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
       invoiceNumber: randomInvoiceNumber,
       name: data.name.toUpperCase(),
+      address: data.address,
+      address2: data.address2,
+      clientName: data.clientName,
+      clientAddress: data.clientAddress,
+
+
+
+
       dueDate: invoiceDueDate,
       tax: data.tax,
       paymentTerms: data.paymentTerms,
       pastDue: false,
-
       description: data.description,
       hours: data.hours,
       quantity: data.quantity,
       rate: data.rate,
-      total: finalTotal,
+      total: floatTotal,
 
       selectedFile: data.selectedFile,
-      creator: userData.user.id,
+      // creator: userData.user.id,
     });
     await clearForm();
   };
@@ -112,6 +122,10 @@ export default function Invoice() {
   const clearForm = () => {
     setData({
       name: "",
+      address: "",
+      address2: "",
+
+      paymentTerms: "",
       quantity: "",
       tax: "",
       description: "",
@@ -125,6 +139,14 @@ export default function Invoice() {
     let invoiceObject = {
       invoiceNumber: invoice[0].invoiceNumber,
       name: invoice[0].name,
+      address: invoice[0].address,
+      address2: invoice[0].address2,
+      clientName: invoice[0].clientName,
+      clientAddress: invoice[0].clientAddress,
+
+
+
+
       dueDate: invoice[0].dueDate,
       description: invoice[0].description,
       hours: invoice[0].hours,
@@ -152,6 +174,29 @@ export default function Invoice() {
         <input
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
+        />
+        <br />
+        <label>Address</label>
+        <input
+          value={data.address}
+          onChange={(e) => setData({ ...data, address: e.target.value })}
+        />
+        <label>City & State</label>
+        <input
+          value={data.address2}
+          onChange={(e) => setData({ ...data, address2: e.target.value })}
+        />
+        <br />
+        <label>Customer Name</label>
+        <input
+          value={data.clientName}
+          onChange={(e) => setData({ ...data, clientName: e.target.value })}
+        />
+        <br />
+        <label>Customer Address</label>
+        <input
+          value={data.clientAddress}
+          onChange={(e) => setData({ ...data, clientAddress: e.target.value })}
         />
         <br />
         <label>Description</label>

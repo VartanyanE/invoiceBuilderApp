@@ -119,13 +119,13 @@ export default function BasicTextFields() {
     event.preventDefault();
 
     const invoiceDueDate = moment().add(data.paymentTerms, "days");
-    // let taxConversion = data.tax / 100;
-    // console.log(taxConversion);
-    // let totalPrice = (data.quantity || data.hours) * data.rate;
+    let taxConversion = data.tax / 100;
+    console.log(taxConversion);
+    let totalPrice = (data.quantity || data.hours) * data.rate;
 
-    // let taxTotal = taxConversion * totalPrice;
-    // let finalTotal = totalPrice + taxTotal;
-    let finalTotal = data.quantity * data.rate;
+    let taxTotal = taxConversion * totalPrice;
+    let finalTotal = totalPrice + taxTotal;
+    // let finalTotal = data.quantity * data.rate;
     console.log(finalTotal);
 
     let randomInvoiceNumber = getRandomInt(9999, 100000);
@@ -142,14 +142,14 @@ export default function BasicTextFields() {
       clientNumber: data.clientNumber,
       clientAddress: data.clientAddress,
 
-      hours: data.hours,
+      rate: data.rate,
 
       total: finalTotal,
       thankYouMessage: data.thankYouMessage,
 
       selectedFile: data.selectedFile,
       selectedLogo: data.selelctedLogo,
-      creator: userData.user.id,
+      // creator: userData.user.id,
     });
     await clearForm();
   };

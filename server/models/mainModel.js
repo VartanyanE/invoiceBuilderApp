@@ -7,6 +7,7 @@ const invoiceSchema = mongoose.Schema({
   invoiceNumber: Number,
   name: "String",
   address: "String",
+  address2: "String",
   paymentTerms: Number,
   dueDate: {
     type: Date,
@@ -16,6 +17,7 @@ const invoiceSchema = mongoose.Schema({
   clientEmail: "String",
   clientNumber: Number,
   clientAddress: "String",
+  description: "String",  
   item: [],
   quantity: Number,
   rate: Number,

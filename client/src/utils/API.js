@@ -16,16 +16,16 @@ export const createInvoice = function (data) {
   return axios.post("/api/data", data);
 };
 
-// export const createPDF = function (data) {
-//   return axios.post("/create-pdf");
-// }
+export const createPDF = function (data) {
+  return axios.post("/create-pdf");
+}
 
-// export const fetchPDF = function (data) {
-//     return axios.get('fetch-pdf', {responseType: 'blob'})
-//   }
-// export const upDateData = function (id, data) {
-//   return axios.put("/api/data/" + id, data);
-// };
+export const fetchPDF = function (data) {
+    return axios.get('fetch-pdf', {responseType: 'blob'})
+  }
+export const upDateData = function (id, data) {
+  return axios.put("/api/data/" + id, data);
+};
 
 export const isPastDue = function (id) {
   return axios.patch("/api/data/" + id);
