@@ -126,7 +126,7 @@ export default function BasicTextFields() {
     let taxTotal = taxConversion * totalPrice;
     let finalTotal = totalPrice + taxTotal;
     // let finalTotal = data.quantity * data.rate;
-    console.log(finalTotal);
+    console.log(totalPrice);
 
     let randomInvoiceNumber = getRandomInt(9999, 100000);
     await createInvoice({
@@ -143,7 +143,7 @@ export default function BasicTextFields() {
       clientAddress: data.clientAddress,
 
       rate: data.rate,
-
+      preTax: totalPrice,
       total: finalTotal,
       thankYouMessage: data.thankYouMessage,
 

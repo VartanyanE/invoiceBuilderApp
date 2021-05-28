@@ -23,6 +23,7 @@ const invoiceSchema = mongoose.Schema({
   rate: Number,
   hours: Number,
   tax: Number,
+  preTax: Number,
   total: Number,
   thankYouMessage: "String",
   dueInSeven: Boolean,

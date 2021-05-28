@@ -175,25 +175,26 @@ module.exports = (res) => {
 				<tr class="item">
 					<td>${res.description}</td>
 
-					<td>$ ${res.total}</td>
+					<td>$ ${res.preTax}</td>
 				</tr>
 
-				<tr class="item">
-					<td></td>
-
-					<td></td>
-				</tr>
+				
 
 				<tr class="item last">
 					<td></td>
 
-					<td></td>
+					<td>tax: ${res.tax}%</td>
 				</tr>
 
 				<tr class="total">
 					<td></td>
+					<tr class="heading">
+					<td></td>
 
-					<td>Total: ${res.total}</td>
+					<td>Total</td>
+				</tr>
+					<td> </td>
+					<td> ${res.total}</td>
 				</tr>
 			</table>
 		</div>

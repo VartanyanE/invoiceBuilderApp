@@ -61,9 +61,10 @@ export default function Invoice() {
     let taxConversion = data.tax / 100;
     console.log(taxConversion);
     let totalPrice = (data.quantity || data.hours) * data.rate;
-    let taxTotal = taxConversion * totalPrice;
-    let finalTotal = totalPrice + taxTotal;
-    let floatTotal = finalTotal.toFixed(2);
+    let taxTotal = taxConversion * parseInt(data.totalPrice);
+    // let floatTax = data.tax.toFixed(2);
+    let finalTotal = parseInt(data.totalPrice) + taxTotal;
+    let floatTotal = finalTotal.toFixed(3);
     console.log(finalTotal);
 
     let randomInvoiceNumber = getRandomInt(9999, 100000);
@@ -74,20 +75,16 @@ export default function Invoice() {
       address2: data.address2,
       clientName: data.clientName,
       clientAddress: data.clientAddress,
-
-
-
-
       dueDate: invoiceDueDate,
-      tax: data.tax,
+      tax: data.tax,  
       paymentTerms: data.paymentTerms,
       pastDue: false,
       description: data.description,
       hours: data.hours,
       quantity: data.quantity,
       rate: data.rate,
+      preTax: data.totalPrice,
       total: floatTotal,
-
       selectedFile: data.selectedFile,
       // creator: userData.user.id,
     });
@@ -130,7 +127,7 @@ export default function Invoice() {
       tax: "",
       description: "",
       hours: "",
-      rate: "",
+      total: "",
     });
   };
 
@@ -151,6 +148,7 @@ export default function Invoice() {
       description: invoice[0].description,
       hours: invoice[0].hours,
       rate: invoice[0].rate,
+      preTax: invoice[0].preTax,
       total: invoice[0].total,
       tax: invoice[0].tax,
       selectedFile: invoice[0].selectedFile,
@@ -168,44 +166,61 @@ export default function Invoice() {
 
   // console.log(arrayGrab);
   return (
-    <div>
+    <div className="container">
+      
+      <div className = "formClass">
       <form onSubmit={handleSubmit}>
         <label>Name</label>
-        <input
+        <br />
+
+        <input 
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
         />
-        <br />
+                <br />
+
+        
         <label>Address</label>
+        <br />
         <input
           value={data.address}
           onChange={(e) => setData({ ...data, address: e.target.value })}
         />
+                <br />
+
         <label>City & State</label>
+        <br />
+
         <input
           value={data.address2}
           onChange={(e) => setData({ ...data, address2: e.target.value })}
         />
         <br />
         <label>Customer Name</label>
+        <br />
+
         <input
           value={data.clientName}
           onChange={(e) => setData({ ...data, clientName: e.target.value })}
         />
         <br />
         <label>Customer Address</label>
+        <br />
+
         <input
           value={data.clientAddress}
           onChange={(e) => setData({ ...data, clientAddress: e.target.value })}
         />
         <br />
         <label>Description</label>
+        <br />
+
         <input
           value={data.description}
           onChange={(e) => setData({ ...data, description: e.target.value })}
         />
         <br />
-        <label>Hours</label>
+        {/* `<label>Hours</label>
         <input
           value={data.hours}
           onChange={(e) => setData({ ...data, hours: e.target.value })}
@@ -216,24 +231,28 @@ export default function Invoice() {
           value={data.quantity}
           onChange={(e) => setData({ ...data, quantity: e.target.value })}
         />
-        <br />
+        <br />` */}
         <label>Tax</label>
+        <br />
+
         <input
           placeholder="%"
           value={data.tax}
           onChange={(e) => setData({ ...data, tax: e.target.value })}
         />
         <br />
-        <label>Payment Terms</label>
+        {/* <label>Payment Terms</label>
         <input
           value={data.paymentTerms}
           onChange={(e) => setData({ ...data, paymentTerms: e.target.value })}
         />
+        <br /> */}
+        <label>Price of Job/Service</label>
         <br />
-        <label>Rate</label>
+
         <input
-          value={data.rate}
-          onChange={(e) => setData({ ...data, rate: e.target.value })}
+          value={data.totalPrice}
+          onChange={(e) => setData({ ...data, totalPrice: e.target.value })}
         />{" "}
         <br />
         Upload a logo{" "}
@@ -244,11 +263,12 @@ export default function Invoice() {
           onDone={({ base64 }) => setData({ ...data, selectedFile: base64 })}
         />{" "}
         <br />
-        <button type="submit">Submit Data</button>
-        <br />
-      </form>
-      <button onClick={downloadPDF}>Download PDF</button>
-      <div>
+        <button className="invoiceButton" type="submit">Create Invoice</button>
+        
+        <button className="pdfButton" onClick={downloadPDF}>Download PDF</button>
+
+      </form></div>
+      {/* <div>
         <form>
           <input
             placeholder="Enter Invoice Number"
@@ -315,7 +335,7 @@ export default function Invoice() {
               </h2>
             ))
           : ""}
-      </div>
+      </div> */}
     </div>
   );
 }
