@@ -128,6 +128,9 @@ export default function Invoice() {
       description: "",
       hours: "",
       total: "",
+      totalPrice: "",
+      clientAddress: "",
+      clientName: ""
     });
   };
 
@@ -172,6 +175,7 @@ export default function Invoice() {
       <form onSubmit={handleSubmit}>
         <label>Name</label>
         <br />
+        
 
         <input 
           value={data.name}
